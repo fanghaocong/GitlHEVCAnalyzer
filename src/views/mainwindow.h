@@ -48,7 +48,7 @@ private slots:
 
     void on_progressBar_actionTriggered(int action);
 
-    void on_actionOpen_bitstream_triggered();
+    void on_actionOpen_HEVC_Bitstream_triggered();
 
     //void on_actionOpen_bitstream_info_folder_triggered();
 
@@ -57,9 +57,6 @@ private slots:
     void on_printScreenBtn_clicked();
 
     void on_actionAbout_triggered();
-
-
-    void on_openBitstreamBtn_clicked();
 
     void on_actionExit_triggered();
 

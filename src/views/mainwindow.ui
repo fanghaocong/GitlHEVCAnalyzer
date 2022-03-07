@@ -63,13 +63,6 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QToolButton" name="openBitstreamBtn">
-         <property name="text">
-          <string>Open</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QToolButton" name="printScreenBtn">
          <property name="text">
           <string>Snapshot</string>
@@ -391,7 +384,7 @@
      <x>0</x>
      <y>0</y>
      <width>1227</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="nativeMenuBar">
@@ -401,7 +394,14 @@
     <property name="title">
      <string>FILE</string>
     </property>
-    <addaction name="actionOpen_bitstream"/>
+    <widget class="QMenu" name="menuOpen_HEVC_Bitstream">
+     <property name="title">
+      <string>Open Bitstream</string>
+     </property>
+     <addaction name="actionOpen_HEVC_Bitstream"/>
+     <addaction name="actionOpen_VVC_Bitstream"/>
+    </widget>
+    <addaction name="menuOpen_HEVC_Bitstream"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -438,11 +438,6 @@
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
   </widget>
-  <action name="actionOpen_bitstream">
-   <property name="text">
-    <string>Open HEVC Bitstream</string>
-   </property>
-  </action>
   <action name="actionHelp">
    <property name="text">
     <string>Online Manual</string>
@@ -498,6 +493,16 @@
   <action name="actionTest">
    <property name="text">
     <string>test</string>
+   </property>
+  </action>
+  <action name="actionOpen_HEVC_Bitstream">
+   <property name="text">
+    <string>Open HEVC Bitstream</string>
+   </property>
+  </action>
+  <action name="actionOpen_VVC_Bitstream">
+   <property name="text">
+    <string>Open VVC Bitstream</string>
    </property>
   </action>
  </widget>

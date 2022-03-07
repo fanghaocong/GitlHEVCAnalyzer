@@ -191,7 +191,7 @@ void MainWindow::xSaveSnapshot(QPixmap *pcPixmap)
 }
 
 
-void MainWindow::on_actionOpen_bitstream_triggered()
+void MainWindow::on_actionOpen_HEVC_Bitstream_triggered()
 {
     /// select file path
     QString strFilename;
@@ -239,13 +239,6 @@ void MainWindow::on_actionAbout_triggered()
     m_cAboutDialog.show();
 }
 
-
-
-
-void MainWindow::on_openBitstreamBtn_clicked()
-{
-    on_actionOpen_bitstream_triggered();
-}
 
 
 void MainWindow::on_actionExit_triggered()
