@@ -1,46 +1,46 @@
-#include "bitstreamversionselector.h"
-#include "ui_bitstreamversionselector.h"
+#include "hevcbitstreamversionselector.h"
+#include "ui_hevcbitstreamversionselector.h"
 #include "model/common/comrom.h"
 #include <QDebug>
-BitstreamVersionSelector::BitstreamVersionSelector(QWidget *parent) :
+HEVCBitstreamVersionSelector::HEVCBitstreamVersionSelector(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::BitstreamVersionSelector)
+    ui(new Ui::HEVCBitstreamVersionSelector)
 {
     ui->setupUi(this);
 
 }
 
-BitstreamVersionSelector::~BitstreamVersionSelector()
+HEVCBitstreamVersionSelector::~HEVCBitstreamVersionSelector()
 {
     delete ui;
 }
 
-void BitstreamVersionSelector::on_version40_clicked()
+void HEVCBitstreamVersionSelector::on_version40_clicked()
 {
     m_iBitstreamVersion = 40;
 }
 
 
 
-void BitstreamVersionSelector::on_version52_clicked()
+void HEVCBitstreamVersionSelector::on_version52_clicked()
 {
     m_iBitstreamVersion = 52;
 }
 
 
 
-void BitstreamVersionSelector::on_version100_clicked()
+void HEVCBitstreamVersionSelector::on_version100_clicked()
 {
     m_iBitstreamVersion = 100;
 }
 
 
-void BitstreamVersionSelector::on_version120_clicked()
+void HEVCBitstreamVersionSelector::on_version120_clicked()
 {
     m_iBitstreamVersion = 120;
 }
 
-void BitstreamVersionSelector::showEvent(QShowEvent * event)
+void HEVCBitstreamVersionSelector::showEvent(QShowEvent * event)
 {
     /// restore last selection
     int m_iBitstreamVersion = g_cAppSetting.value("last_bitstream_version", 100).toInt();
@@ -66,7 +66,7 @@ void BitstreamVersionSelector::showEvent(QShowEvent * event)
     QDialog::showEvent(event);
 }
 
-void BitstreamVersionSelector::hideEvent(QHideEvent * event)
+void HEVCBitstreamVersionSelector::hideEvent(QHideEvent * event)
 {
     /// save current selection
     xSetDecoderVersion();
@@ -74,12 +74,12 @@ void BitstreamVersionSelector::hideEvent(QHideEvent * event)
     QDialog::hideEvent(event);
 }
 
-void BitstreamVersionSelector::on_buttonBox_accepted()
+void HEVCBitstreamVersionSelector::on_buttonBox_accepted()
 {
     xSetDecoderVersion();
 }
 
-void BitstreamVersionSelector::xSetDecoderVersion()
+void HEVCBitstreamVersionSelector::xSetDecoderVersion()
 {
     if(ui->version40->isChecked())
     {

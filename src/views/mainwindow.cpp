@@ -8,7 +8,7 @@
 #include <QApplication>
 #include "model/modellocator.h"
 #include "commands/appfrontcontroller.h"
-#include "bitstreamversionselector.h"
+#include "hevcbitstreamversionselector.h"
 #include "model/common/comrom.h"
 #include "gitlivkcmdevt.h"
 #include "preferencedialog.h"
@@ -195,14 +195,14 @@ void MainWindow::on_actionOpen_HEVC_Bitstream_triggered()
 {
     /// select file path
     QString strFilename;
-    QString strLastPath = g_cAppSetting.value("open_bitstream_path",".").toString();
+    QString strLastPath = g_cAppSetting.value("open_hevc_bitstream_path",".").toString();
     strFilename=QFileDialog::getOpenFileName(this,
-                                          tr("Open Bitstream File"),
+                                          tr("Open HEVC Bitstream File"),
                                           strLastPath,
                                           tr("All Files (*.*)"));
 
     if(!strFilename.isEmpty())
-        g_cAppSetting.setValue("open_bitstream_path",strFilename);
+        g_cAppSetting.setValue("open_hevc_bitstream_path",strFilename);
 
     if(strFilename.isEmpty() || !QFileInfo(strFilename).exists() )
     {
@@ -211,7 +211,7 @@ void MainWindow::on_actionOpen_HEVC_Bitstream_triggered()
     }
 
     /// select HM version
-    BitstreamVersionSelector cBitstreamDig(this);
+    HEVCBitstreamVersionSelector cBitstreamDig(this);
     if( cBitstreamDig.exec() == QDialog::Rejected )
         return;
 
@@ -296,7 +296,7 @@ void MainWindow::dropEvent(QDropEvent *event)
     }
 
     /// select HM version
-    BitstreamVersionSelector cBitstreamDig(this);
+    HEVCBitstreamVersionSelector cBitstreamDig(this);
     if( cBitstreamDig.exec() == QDialog::Rejected )
         return;
 
