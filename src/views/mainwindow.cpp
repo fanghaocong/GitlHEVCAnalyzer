@@ -260,55 +260,6 @@ void MainWindow::on_actionReloadPluginsFilters_triggered()
     cEvt.dispatch();
 }
 
-void MainWindow::dragEnterEvent(QDragEnterEvent *event)
-{
-    if(event->mimeData()->hasUrls())
-        event->accept();
-    else
-        event->ignore();
-}
-
-void MainWindow::dragMoveEvent(QDragMoveEvent *event)
- {
-    if(event->mimeData()->hasUrls())
-        event->accept();
-    else
-        event->ignore();
- }
-
-void MainWindow::dropEvent(QDropEvent *event)
-{
-
-    event->acceptProposedAction();
-
-    if(event->mimeData()->urls().empty())
-        return;
-
-    QString strFilename = event->mimeData()->urls().at(0).toLocalFile();
-
-    if(!strFilename.isEmpty())
-        g_cAppSetting.setValue("open_hevc_bitstream_path",strFilename);
-
-    if(strFilename.isEmpty() || !QFileInfo(strFilename).exists() )
-    {
-        qWarning() << "File not found.";
-        return;
-    }
-
-    /// select HM version
-    HEVCBitstreamVersionSelector cBitstreamDig(this);
-    if( cBitstreamDig.exec() == QDialog::Rejected )
-        return;
-
-    /// prepare & sent event to bus
-    /// invoke command
-    GitlIvkCmdEvt cEvt("open_hevc_bitstream");
-    cEvt.setParameter("filename", strFilename);
-    cEvt.setParameter("skip_decode", false);
-    cEvt.setParameter("version", cBitstreamDig.getBitstreamVersion());
-    cEvt.dispatch();
-}
-
 void MainWindow::on_actionPreferences_triggered()
 {
     m_cPreferenceDialog.show();
