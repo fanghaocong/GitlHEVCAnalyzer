@@ -36,7 +36,7 @@ static struct
 }
 s_sCmdTable[] =
 {
-    { "open_bitstream",   &OpenBitstreamCommand::staticMetaObject      },
+    { "open_hevc_bitstream",   &OpenBitstreamCommand::staticMetaObject      },
     { "close_bitstream",  &CloseBitstreamCommand::staticMetaObject     },
     { "next_frame",       &NextFrameCommand::staticMetaObject          },
     { "prev_frame",       &PrevFrameCommand::staticMetaObject          },

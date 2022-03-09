@@ -216,7 +216,7 @@ void MainWindow::on_actionOpen_HEVC_Bitstream_triggered()
         return;
 
     /// prepare & sent event to bus
-    GitlIvkCmdEvt cEvt("open_bitstream");
+    GitlIvkCmdEvt cEvt("open_hevc_bitstream");
     cEvt.setParameter("filename", strFilename);
     cEvt.setParameter("skip_decode", false);
     cEvt.setParameter("version", cBitstreamDig.getBitstreamVersion());
@@ -287,7 +287,7 @@ void MainWindow::dropEvent(QDropEvent *event)
     QString strFilename = event->mimeData()->urls().at(0).toLocalFile();
 
     if(!strFilename.isEmpty())
-        g_cAppSetting.setValue("open_bitstream_path",strFilename);
+        g_cAppSetting.setValue("open_hevc_bitstream_path",strFilename);
 
     if(strFilename.isEmpty() || !QFileInfo(strFilename).exists() )
     {
@@ -302,7 +302,7 @@ void MainWindow::dropEvent(QDropEvent *event)
 
     /// prepare & sent event to bus
     /// invoke command
-    GitlIvkCmdEvt cEvt("open_bitstream");
+    GitlIvkCmdEvt cEvt("open_hevc_bitstream");
     cEvt.setParameter("filename", strFilename);
     cEvt.setParameter("skip_decode", false);
     cEvt.setParameter("version", cBitstreamDig.getBitstreamVersion());

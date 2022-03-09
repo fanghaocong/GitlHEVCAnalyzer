@@ -56,7 +56,7 @@ SOURCES += main.cpp \
     views/sequencelist.cpp \
     views/sequencelistitem.cpp \
     commands/zoomframecommand.cpp \
-    commands/configfiltercommand.cpp \    
+    commands/configfiltercommand.cpp \
     commands/checkupdatecommand.cpp \
     commands/reloadfilterscommand.cpp \
     commands/switchyuvcommand.cpp \
@@ -89,7 +89,8 @@ SOURCES += main.cpp \
     commands/cleancachecommand.cpp \
     parsers/tileparser.cpp \
     model/common/comtile.cpp \
-    commands/savefilterordercommand.cpp
+    commands/savefilterordercommand.cpp \
+    views/vvcbitstreamversionselector.cpp
 
 HEADERS += \
     model/common/comsequence.h \
@@ -102,7 +103,7 @@ HEADERS += \
     views/hevcbitstreamversionselector.h \
     views/mainwindow.h \
     model/io/ioyuv.h \
-    model/modellocator.h \    
+    model/modellocator.h \
     commands/nextframecommand.h \
     commands/prevframecommand.h \
     commands/jumptoframecommand.h \
@@ -131,7 +132,8 @@ HEADERS += \
     commands/refreshscreencommand.h \
     views/sequencelist.h \
     views/sequencelistitem.h \
-    commands/zoomframecommand.h \    
+    commands/zoomframecommand.h \
+    views/vvcbitstreamversionselector.h \
     exceptions/decodernotfoundexception.h \
     exceptions/decodingfailexception.h \
     exceptions/bitstreamnotfoundexception.h \
@@ -199,7 +201,8 @@ FORMS += \
     views/filterconfigslider.ui \
     views/gitlcolorpicker.ui \
     views/filterconfigradios.ui \
-    views/filterconfigcombobox.ui
+    views/filterconfigcombobox.ui \
+    views/vvcbitstreamversionselector.ui
 
 #icon
 RC_FILE = resources/icons/appicon.rc

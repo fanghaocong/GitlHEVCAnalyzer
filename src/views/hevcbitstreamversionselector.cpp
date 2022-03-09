@@ -43,7 +43,7 @@ void HEVCBitstreamVersionSelector::on_version120_clicked()
 void HEVCBitstreamVersionSelector::showEvent(QShowEvent * event)
 {
     /// restore last selection
-    int m_iBitstreamVersion = g_cAppSetting.value("last_bitstream_version", 100).toInt();
+    int m_iBitstreamVersion = g_cAppSetting.value("last_hevc_bitstream_version", 100).toInt();
     switch(m_iBitstreamVersion)
     {
     case 40:
@@ -70,7 +70,7 @@ void HEVCBitstreamVersionSelector::hideEvent(QHideEvent * event)
 {
     /// save current selection
     xSetDecoderVersion();
-    g_cAppSetting.setValue("last_bitstream_version", m_iBitstreamVersion);
+    g_cAppSetting.setValue("last_hevc_bitstream_version", m_iBitstreamVersion);
     QDialog::hideEvent(event);
 }
 
