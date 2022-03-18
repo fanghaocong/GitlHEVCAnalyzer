@@ -413,6 +413,11 @@ uint32_t DecApp::decode()
         if( ( m_cDecLib.getVPS() != nullptr && ( m_cDecLib.getVPS()->getMaxLayers() == 1 || xIsNaluWithinTargetOutputLayerIdSet( &nalu ) ) ) || m_cDecLib.getVPS() == nullptr )
         {
           m_cVideoIOYuvReconFile[nalu.m_nuhLayerId].open( reconFileName, true, m_outputBitDepth, m_outputBitDepth, bitDepths.recon ); // write mode
+#if ENABLE_ANAYSIS_OUTPUT
+//          const int outputBitDepth[] = {16, 16};
+//          const int bitDepthsRecon[] = {16, 16};
+//          m_cVideoIOYuvResiFile[nalu.m_nuhLayerId].open( "resi.yuv", true, outputBitDepth, outputBitDepth, bitDepthsRecon );
+#endif
         }
       }
       // update file bitdepth shift if recon bitdepth changed between sequences

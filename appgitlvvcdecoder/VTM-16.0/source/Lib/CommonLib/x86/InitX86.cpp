@@ -63,11 +63,11 @@ void InterpolationFilter::initInterpolationFilterX86( /*int iBitDepthY, int iBit
     _initInterpolationFilterX86<AVX2>(/*iBitDepthY, iBitDepthC*/);
     break;
   case AVX:
-    _initInterpolationFilterX86<AVX>(/*iBitDepthY, iBitDepthC*/);
+//    _initInterpolationFilterX86<AVX>(/*iBitDepthY, iBitDepthC*/);
     break;
   case SSE42:
   case SSE41:
-    _initInterpolationFilterX86<SSE41>(/*iBitDepthY, iBitDepthC*/);
+//    _initInterpolationFilterX86<SSE41>(/*iBitDepthY, iBitDepthC*/);
     break;
   default:
     break;

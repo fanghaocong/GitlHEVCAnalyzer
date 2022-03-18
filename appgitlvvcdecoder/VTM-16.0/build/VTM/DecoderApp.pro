@@ -17,10 +17,11 @@ include(DecoderApp.pri)
 LIBS += -L$$OUT_PWD/..
 
 CONFIG(debug, debug|release){
-    LIBS += -lDecoderLibd -lUtilitiesd -lCommonLibd
+    LIBS += -lUtilitiesd -lDecoderLibd -lCommonLibd
 }
 CONFIG(release, debug|release){
-    LIBS += -lDecoderLib  -lUtilities -lCommonLib
+    LIBS += -lUtilities -lDecoderLib -lCommonLib
 }
 
 DEPENDPATH += ../../source/Lib
+message("fanghc decoderapp defines: "$$DEFINES)

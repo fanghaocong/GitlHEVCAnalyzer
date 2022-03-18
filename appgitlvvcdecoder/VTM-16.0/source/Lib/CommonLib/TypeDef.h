@@ -1284,6 +1284,8 @@ struct XUCache
 
 #define SIGN(x) ( (x) >= 0 ? 1 : -1 )
 
+#define ENABLE_ANAYSIS_OUTPUT   1
+
 //! \}
 
 #endif

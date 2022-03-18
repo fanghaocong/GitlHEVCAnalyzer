@@ -9,6 +9,7 @@
 #include "model/modellocator.h"
 #include "commands/appfrontcontroller.h"
 #include "hevcbitstreamversionselector.h"
+#include "vvcbitstreamversionselector.h"
 #include "model/common/comrom.h"
 #include "gitlivkcmdevt.h"
 #include "preferencedialog.h"
@@ -216,12 +217,44 @@ void MainWindow::on_actionOpen_HEVC_Bitstream_triggered()
         return;
 
     /// prepare & sent event to bus
-    GitlIvkCmdEvt cEvt("open_hevc_bitstream");
+    GitlIvkCmdEvt cEvt("open_bitstream");
     cEvt.setParameter("filename", strFilename);
     cEvt.setParameter("skip_decode", false);
     cEvt.setParameter("version", cBitstreamDig.getBitstreamVersion());
     cEvt.dispatch();
+}
 
+
+void MainWindow::on_actionOpen_VVC_Bitstream_triggered()
+{
+    /// select file path
+    QString strFilename;
+    QString strLastPath = g_cAppSetting.value("open_vvc_bitstream_path",".").toString();
+    strFilename=QFileDialog::getOpenFileName(this,
+                                          tr("Open VVC Bitstream File"),
+                                          strLastPath,
+                                          tr("All Files (*.*)"));
+
+    if(!strFilename.isEmpty())
+        g_cAppSetting.setValue("open_vvc_bitstream_path",strFilename);
+
+    if(strFilename.isEmpty() || !QFileInfo(strFilename).exists() )
+    {
+        qWarning() << "File not found.";
+        return;
+    }
+
+    /// select VTM version
+    VVCBitstreamVersionSelector cBitstreamDig(this);
+    if( cBitstreamDig.exec() == QDialog::Rejected )
+        return;
+
+    /// prepare & sent event to bus
+    GitlIvkCmdEvt cEvt("open_vvc_bitstream");
+    cEvt.setParameter("filename", strFilename);
+    cEvt.setParameter("skip_decode", false);
+    cEvt.setParameter("version", cBitstreamDig.getBitstreamVersion());
+    cEvt.dispatch();
 }
 
 

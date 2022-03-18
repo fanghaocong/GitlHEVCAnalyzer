@@ -47,6 +47,8 @@ private slots:
 
     void on_actionOpen_HEVC_Bitstream_triggered();
 
+    void on_actionOpen_VVC_Bitstream_triggered();
+
     //void on_actionOpen_bitstream_info_folder_triggered();
 
 

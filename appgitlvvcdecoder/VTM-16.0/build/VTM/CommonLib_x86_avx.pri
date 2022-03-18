@@ -5,5 +5,5 @@ SOURCES += \
     $$PWD/../../source/Lib/CommonLib/x86/avx/InterpolationFilter_avx.cpp \
     $$PWD/../../source/Lib/CommonLib/x86/avx/RdCost_avx.cpp
 
-DEFINES += USE_AVX
 QMAKE_CXXFLAGS += "-mavx"
+msvc:QMAKE_CXXFLAGS += "/arch:AVX"

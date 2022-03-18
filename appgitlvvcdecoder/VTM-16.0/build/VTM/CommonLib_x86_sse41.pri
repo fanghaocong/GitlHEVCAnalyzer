@@ -5,5 +5,4 @@ SOURCES += \
     $$PWD/../../source/Lib/CommonLib/x86/sse41/InterpolationFilter_sse41.cpp \
     $$PWD/../../source/Lib/CommonLib/x86/sse41/RdCost_sse41.cpp
 
-DEFINES += USE_SSE41
 QMAKE_CXXFLAGS += "-msse4.1"
