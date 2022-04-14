@@ -11,6 +11,11 @@ class SpsParser : public QObject
 public:
     explicit SpsParser(QObject *parent = 0);
     bool parseFile(QTextStream* pcInputStream, ComSequence* pcSequence);
+
+protected:
+    bool parseFile_HEVC(QTextStream* pcInputStream, ComSequence* pcSequence);
+    bool parseFile_VVC(QTextStream* pcInputStream, ComSequence* pcSequence);
+
 signals:
 
 public slots:

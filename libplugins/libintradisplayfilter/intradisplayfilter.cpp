@@ -59,7 +59,7 @@ bool IntraDisplayFilter::drawPU   (FilterContext* pcContext, QPainter* pcPainter
         {
             pcPainter->drawEllipse(pcScaledArea->topLeft(), pcScaledArea->width()/2-1, pcScaledArea->width()/2-1);
         }
-        else if(iIntraDir >= 2 && iIntraDir <= 34)  /// Angular
+        else if(iIntraDir >= 2 && iIntraDir <= 66)  /// Angular
         {
             double dRotation = -s_aiIntraRotation[iIntraDir];
             int iLength = pcScaledArea->width();

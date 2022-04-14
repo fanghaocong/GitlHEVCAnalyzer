@@ -12,7 +12,9 @@ public:
     explicit PredParser(QObject *parent = 0);
     bool parseFile(QTextStream* pcInputStream, ComSequence* pcSequence);
 protected:
-    bool xReadPredMode(QTextStream* pcPredInfoStream, ComCU* pcCU);
+    bool xReadPredMode(QTextStream* pcPredInfoStream, ComCU* pcCU, ComSequence* pcSequence);
+    bool xReadPredMode_HEVC(QTextStream* pcPredInfoStream, ComCU* pcCU);
+    bool xReadPredMode_VVC(QTextStream* pcPredInfoStream, ComCU* pcCU);
 signals:
 
 public slots:

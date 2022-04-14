@@ -63,11 +63,7 @@ bool MVDisplayFilter::drawPU  (FilterContext* pcContext, QPainter* pcPainter,
     cFont.setPointSize(10);
     pcPainter->setFont(cFont);
 
-    if( iInterDir == 0 )
-    {
-        /// Do nothing
-    }
-    else if( iInterDir == 1 )  /// uni-directional prediction
+    if( iInterDir == 1 )  /// uni-directional prediction
     {
         /// Get MV of PU
         pcMV = pcPU->getMVs().at(0);
@@ -133,6 +129,10 @@ bool MVDisplayFilter::drawPU  (FilterContext* pcContext, QPainter* pcPainter,
         }
         if(m_bShowRefPOC)
             pcPainter->drawText(*pcScaledArea, Qt::AlignCenter, QString("L0 %1 L1 %2").arg(pcPU->getMVs().at(0)->getRefPOC()).arg(pcPU->getMVs().at(1)->getRefPOC()));
+    }
+    else
+    {
+        // do nothing
     }
     return true;
 

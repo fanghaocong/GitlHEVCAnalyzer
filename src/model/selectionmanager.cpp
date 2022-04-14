@@ -32,7 +32,7 @@ ComCU *SelectionManager::getSCU(ComFrame* pcFrame, const QPointF* pcUnscaledPos)
         {
             foreach(ComCU* pcSCU, pcCurCU->getSCUs())
             {
-                QRectF cSCURect(pcSCU->getX(), pcSCU->getY(), pcSCU->getSize(), pcSCU->getSize());
+                QRectF cSCURect(pcSCU->getX(), pcSCU->getY(), pcSCU->getWidth(), pcSCU->getHeight());
                 if(cSCURect.contains(*pcUnscaledPos))
                 {
                     pcCurCU = pcSCU;
@@ -73,7 +73,7 @@ ComTU *SelectionManager::getTU(ComFrame* pcFrame, const QPointF* pcUnscaledPos)
         {
             foreach(ComTU* pcTU, pcCurTU->getTUs())
             {
-                QRectF cTURect(pcTU->getX(), pcTU->getY(), pcTU->getSize(), pcTU->getSize());
+                QRectF cTURect(pcTU->getX(), pcTU->getY(), pcTU->getWidth(), pcTU->getHeight());
                 if(cTURect.contains(*pcUnscaledPos))
                 {
                     pcCurTU = pcTU;

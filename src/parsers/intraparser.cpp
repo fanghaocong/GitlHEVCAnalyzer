@@ -41,7 +41,7 @@ bool IntraParser::parseFile(QTextStream* pcInputStream, ComSequence* pcSequence)
             ///
             QString strIntraDir = cMatchTarget.cap(3);
             cIntraDirInfoStream.setString( &strIntraDir, QIODevice::ReadOnly );
-            xReadIntraMode(&cIntraDirInfoStream, pcLCU);
+            xReadIntraMode(&cIntraDirInfoStream, pcLCU, pcSequence);
 
         }
 
@@ -50,15 +50,29 @@ bool IntraParser::parseFile(QTextStream* pcInputStream, ComSequence* pcSequence)
 }
 
 
-bool IntraParser::xReadIntraMode(QTextStream* pcCUInfoStream, ComCU* pcCU)
+bool IntraParser::xReadIntraMode(QTextStream* pcCUInfoStream, ComCU* pcCU, ComSequence* pcSequence)
+{
+    if ( pcSequence->getEncoder() == "HM" )
+    {
+        return xReadIntraMode_HEVC(pcCUInfoStream, pcCU);
+    }
+    else if ( pcSequence->getEncoder() == "VTM" )
+    {
+        return xReadIntraMode_VVC(pcCUInfoStream, pcCU);
+    }
+
+    return false;
+}
+
+bool IntraParser::xReadIntraMode_HEVC(QTextStream* pcCUInfoStream, ComCU* pcCU)
 {
     if( !pcCU->getSCUs().empty() )
     {
         /// non-leaf node : recursive reading for children
-        xReadIntraMode(pcCUInfoStream, pcCU->getSCUs().at(0));
-        xReadIntraMode(pcCUInfoStream, pcCU->getSCUs().at(1));
-        xReadIntraMode(pcCUInfoStream, pcCU->getSCUs().at(2));
-        xReadIntraMode(pcCUInfoStream, pcCU->getSCUs().at(3));
+        xReadIntraMode_HEVC(pcCUInfoStream, pcCU->getSCUs().at(0));
+        xReadIntraMode_HEVC(pcCUInfoStream, pcCU->getSCUs().at(1));
+        xReadIntraMode_HEVC(pcCUInfoStream, pcCU->getSCUs().at(2));
+        xReadIntraMode_HEVC(pcCUInfoStream, pcCU->getSCUs().at(3));
     }
     else
     {
@@ -73,5 +87,22 @@ bool IntraParser::xReadIntraMode(QTextStream* pcCUInfoStream, ComCU* pcCU)
             pcCU->getPUs().at(i)->setIntraDirChroma(iIntraDirChroma);
         }
     }
+    return true;
+}
+
+
+bool IntraParser::xReadIntraMode_VVC(QTextStream* pcCUInfoStream, ComCU* pcCU)
+{
+    for(int i = 0; i < pcCU->getPUs().size(); i++)
+    {
+        int iIntraDirLuma;
+        int iIntraDirChroma;
+
+        Q_ASSERT(pcCUInfoStream->atEnd()==false);
+        *pcCUInfoStream >> iIntraDirLuma >> iIntraDirChroma;
+        pcCU->getPUs().at(i)->setIntraDirLuma(iIntraDirLuma);
+        pcCU->getPUs().at(i)->setIntraDirChroma(iIntraDirChroma);
+    }
+
     return true;
 }

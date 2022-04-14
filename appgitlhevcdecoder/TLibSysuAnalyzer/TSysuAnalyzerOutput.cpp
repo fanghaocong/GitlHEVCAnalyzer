@@ -76,7 +76,7 @@ void TSysuAnalyzerOutput::writeOutCUInfo   ( TComDataCU* pcCU )
   m_cTUOutput   << "<" << iPoc << "," << iAddr << ">" << " ";  ///< Write out TU mode info
   m_cBitOutputLCU << "<" << iPoc << "," << iAddr << ">" << " ";  ///< Write out bit info
   m_cBitOutputSCU << "<" << iPoc << "," << iAddr << ">" << " ";  ///< Write out bit info
-  m_cMEOutput   << "<" << iPoc << "," << iAddr << ">" << " ";  ///< Write out ME info  
+  m_cMEOutput   << "<" << iPoc << "," << iAddr << ">" << " ";  ///< Write out ME info
 
   xWriteOutCUInfo  ( pcCU, iTotalNumPart, 0, 0 );   ///< Recursive write Prediction, CU, PU, Merge, Intra, ME
   m_cBitOutputLCU << pcCU->getTotalBits(); ///< Bit info
@@ -96,7 +96,7 @@ void TSysuAnalyzerOutput::writeOutCUInfo   ( TComDataCU* pcCU )
 
 void TSysuAnalyzerOutput::xWriteOutCUInfo  ( TComDataCU* pcCU, Int iLength, Int iOffset, UInt iDepth )
 {
-  
+
   UChar* puhDepth    = pcCU->getDepth();
   Char*  puhPartSize = pcCU->getPartitionSize();
 
@@ -105,14 +105,14 @@ void TSysuAnalyzerOutput::xWriteOutCUInfo  ( TComDataCU* pcCU, Int iLength, Int 
   if( puhDepth[iOffset] <= iDepth )
   {
     ///< CU PU info
-    m_cCUPUOutput << (Int)(puhPartSize[iOffset]) << " "; 
+    m_cCUPUOutput << (Int)(puhPartSize[iOffset]) << " ";
 
     ///< TU info
     xWriteOutTUInfo  ( pcCU, iLength, iOffset, 0 );   ///< Recursive write TU
-    
+
 
     /// PU number in this leaf CU
-    int iNumPart = 0;           
+    int iNumPart = 0;
 
     switch ( puhPartSize[iOffset] )
     {
@@ -143,16 +143,16 @@ void TSysuAnalyzerOutput::xWriteOutCUInfo  ( TComDataCU* pcCU, Int iLength, Int 
       case SIZE_NxN:
         iPartAddOffset = ( iLength >> 2 ) * i;
         break;
-      case SIZE_2NxnU:    
+      case SIZE_2NxnU:
         iPartAddOffset = ( i == 0 ) ? 0 : iLength >> 3;
         break;
-      case SIZE_2NxnD:    
+      case SIZE_2NxnD:
         iPartAddOffset = ( i == 0 ) ? 0 : (iLength >> 1) + (iLength >> 3);
         break;
-      case SIZE_nLx2N:    
+      case SIZE_nLx2N:
         iPartAddOffset = ( i == 0 ) ? 0 : iLength >> 4;
         break;
-      case SIZE_nRx2N:   
+      case SIZE_nRx2N:
         iPartAddOffset = ( i == 0 ) ? 0 : (iLength >> 2) + (iLength >> 4);
         break;
       default:
@@ -163,7 +163,7 @@ void TSysuAnalyzerOutput::xWriteOutCUInfo  ( TComDataCU* pcCU, Int iLength, Int 
 
       /// Write prediction info (for historical reason, MODE_SKIP = 0, MODE_INTER = 1 ....) (SKIP mode removed after HM-8.0)
       PredMode ePred = pcCU->getPredictionMode(iOffset+iPartAddOffset);
-      Int iPred = ePred; 
+      Int iPred = ePred;
       if(ePred == MODE_INTER )
         iPred = 1;
       else if(ePred == MODE_INTRA)
@@ -173,7 +173,7 @@ void TSysuAnalyzerOutput::xWriteOutCUInfo  ( TComDataCU* pcCU, Int iLength, Int 
       m_cPredOutput << iPred << " ";
 
       /// Write merge info
-      Bool bMergeFlag = pcCU->getMergeFlag(iOffset+iPartAddOffset);      
+      Bool bMergeFlag = pcCU->getMergeFlag(iOffset+iPartAddOffset);
       Int iMergeIndex = pcCU->getMergeIndex(iOffset+iPartAddOffset);
       if(bMergeFlag)
         m_cMergeOutput << iMergeIndex << " ";
@@ -190,7 +190,7 @@ void TSysuAnalyzerOutput::xWriteOutCUInfo  ( TComDataCU* pcCU, Int iLength, Int 
       }
       else if ( iInterDir == 1 )
       {
-        rcMV= pcCU->getCUMvField(REF_PIC_LIST_0)->getMv(iOffset+iPartAddOffset);	
+        rcMV= pcCU->getCUMvField(REF_PIC_LIST_0)->getMv(iOffset+iPartAddOffset);
         iRefIdx = pcCU->getCUMvField(REF_PIC_LIST_0)->getRefIdx(iOffset+iPartAddOffset);
         m_cMVOutput << pcCU->getSlice()->getRefPOC(REF_PIC_LIST_0, iRefIdx) << " " << rcMV.getHor() << " " << rcMV.getVer() << " ";
       }
@@ -202,13 +202,13 @@ void TSysuAnalyzerOutput::xWriteOutCUInfo  ( TComDataCU* pcCU, Int iLength, Int 
       }
       else if ( iInterDir == 3 )
       {
-        rcMV= pcCU->getCUMvField(REF_PIC_LIST_0)->getMv(iOffset+iPartAddOffset);	
+        rcMV= pcCU->getCUMvField(REF_PIC_LIST_0)->getMv(iOffset+iPartAddOffset);
         iRefIdx = pcCU->getCUMvField(REF_PIC_LIST_0)->getRefIdx(iOffset+iPartAddOffset);
         m_cMVOutput << pcCU->getSlice()->getRefPOC(REF_PIC_LIST_0, iRefIdx) << " " << rcMV.getHor() << " " << rcMV.getVer() << " ";
         rcMV= pcCU->getCUMvField(REF_PIC_LIST_1)->getMv(iOffset+iPartAddOffset);
         iRefIdx = pcCU->getCUMvField(REF_PIC_LIST_1)->getRefIdx(iOffset+iPartAddOffset);
         m_cMVOutput << pcCU->getSlice()->getRefPOC(REF_PIC_LIST_1, iRefIdx) << " " << rcMV.getHor() << " " << rcMV.getVer() << " ";
-      }    
+      }
 
       /// Write Intra info
       Int iLumaIntraDir   = pcCU->getLumaIntraDir(iOffset+iPartAddOffset);
@@ -241,7 +241,7 @@ Void TSysuAnalyzerOutput::xWriteOutTUInfo  ( TComDataCU* pcCU, Int iLength, Int 
   }
   else
   {
-    m_cTUOutput << "99" << " ";     
+    m_cTUOutput << "99" << " ";
     for( UInt i = 0; i < 4; i++ )
     {
       xWriteOutTUInfo  ( pcCU, iLength/4, iOffset+iLength/4*i, iDepth+1);

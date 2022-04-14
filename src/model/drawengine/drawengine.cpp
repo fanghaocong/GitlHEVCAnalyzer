@@ -53,7 +53,7 @@ QPixmap* DrawEngine::drawFrame( ComSequence* pcSequence, int iPoc, QPixmap *pcPi
         ComCU* pcLCU = pcFrame->getLCUs().at(iAddr);
         int iPixelX = pcLCU->getX();
         int iPixelY = pcLCU->getY();
-        cScaledCUArea.setCoords( iPixelX, iPixelY, (iPixelX+pcLCU->getSize())-1, (iPixelY+pcLCU->getSize())-1 );
+        cScaledCUArea.setCoords( iPixelX, iPixelY, (iPixelX+pcLCU->getWidth())-1, (iPixelY+pcLCU->getHeight())-1 );
         xScaleRect(&cScaledCUArea,&cScaledCUArea);
         m_cFilterLoader.drawCTU(&cPainter, pcLCU, m_dScale, &cScaledCUArea);
     }
@@ -114,8 +114,9 @@ void DrawEngine::keyPress(int iKeyPressed)
 
 bool DrawEngine::xDrawPU( QPainter* pcPainter,  ComCU* pcCU )
 {
-
-    if( pcCU->getSCUs().empty() )
+    // when drawing hevc bitstream, non-empty PU array means leaf CU, then begin draw PU
+    // when drawing hevc bitstream, PUs are all stored in LCU, begin draw directly
+    if( !pcCU->getPUs().empty() )
     {
         /// traverse very PU in this Leaf-CU
         QRect cScaledPUArea;
@@ -132,9 +133,10 @@ bool DrawEngine::xDrawPU( QPainter* pcPainter,  ComCU* pcCU )
     }
     else
     {
-        for(int iSub = 0; iSub < 4; iSub++)
+        QVector<ComCU*>::iterator iter;
+        for ( iter = pcCU->getSCUs().begin(); iter != pcCU->getSCUs().end(); iter++ )
         {
-            xDrawPU ( pcPainter, pcCU->getSCUs().at(iSub) );
+            xDrawPU ( pcPainter, *iter );
         }
     }
     return true;
@@ -150,16 +152,17 @@ bool DrawEngine::xDrawCU( QPainter* pcPainter,  ComCU* pcCU )
 
         /// draw CU
         QRect cScaledCUArea;
-        cScaledCUArea.setCoords( pcCU->getX(), pcCU->getY(), (pcCU->getX()+pcCU->getSize())-1, (pcCU->getY()+pcCU->getSize())-1 );
+        cScaledCUArea.setCoords( pcCU->getX(), pcCU->getY(), (pcCU->getX()+pcCU->getWidth())-1, (pcCU->getY()+pcCU->getHeight())-1 );
         xScaleRect(&cScaledCUArea,&cScaledCUArea);
         m_cFilterLoader.drawCU(pcPainter, pcCU, m_dScale, &cScaledCUArea);
 
     }
     else
     {
-        for(int iSub = 0; iSub < 4; iSub++)
+        QVector<ComCU*>::iterator iter;
+        for (iter = pcCU->getSCUs().begin(); iter != pcCU->getSCUs().end(); iter++ )
         {
-            xDrawCU ( pcPainter, pcCU->getSCUs().at(iSub) );
+            xDrawCU ( pcPainter, *iter );
         }
     }
     return true;
@@ -169,7 +172,16 @@ bool DrawEngine::xDrawCU( QPainter* pcPainter,  ComCU* pcCU )
 
 bool DrawEngine::xDrawTU(QPainter* pcPainter,  ComCU *pcCU )
 {
-    if( pcCU->getSCUs().empty() )
+    bool isValidTU = pcCU->getTURoot().isValid( pcCU->getX(),
+                                                pcCU->getY(),
+                                                pcCU->getX() + pcCU->getWidth() - 1,
+                                                pcCU->getY() + pcCU->getHeight() - 1);
+
+    // when drawing hevc bitstream:
+    // empty CU array means leaf CU, and (isValidTU == true) only for leaf CU, then begin draw TU
+    // when drawing hevc bitstream:
+    // TURoot is stored in LCU, though SCU array is not empty but (isValidTU == true), then begin draw directly
+    if( pcCU->getSCUs().empty() || isValidTU )
     {
 
         /// draw TU
@@ -178,9 +190,10 @@ bool DrawEngine::xDrawTU(QPainter* pcPainter,  ComCU *pcCU )
     }
     else
     {
-        for(int iSub = 0; iSub < 4; iSub++)
+        QVector<ComCU*>::iterator iter;
+        for (iter = pcCU->getSCUs().begin(); iter != pcCU->getSCUs().end(); iter++ )
         {
-            xDrawTU ( pcPainter, pcCU->getSCUs().at(iSub) );
+            xDrawCU ( pcPainter, *iter );
         }
     }
     return true;
@@ -199,7 +212,7 @@ bool DrawEngine::xDrawTUHelper( QPainter* pcPainter,  ComTU* pcTU )
     else
     {
         QRect cScaledTUArea;
-        cScaledTUArea.setCoords( pcTU->getX(), pcTU->getY(), (pcTU->getX()+pcTU->getSize())-1, (pcTU->getY()+pcTU->getSize())-1 );
+        cScaledTUArea.setCoords( pcTU->getX(), pcTU->getY(), (pcTU->getX()+pcTU->getWidth())-1, (pcTU->getY()+pcTU->getHeight())-1 );
         xScaleRect(&cScaledTUArea,&cScaledTUArea);
         m_cFilterLoader.drawTU(pcPainter, pcTU, m_dScale, &cScaledTUArea);
 
@@ -210,6 +223,6 @@ bool DrawEngine::xDrawTUHelper( QPainter* pcPainter,  ComTU* pcTU )
 
 void DrawEngine::xScaleRect( QRect* rcUnscaled, QRect* rcScaled )
 {
-    rcScaled->setTopLeft(rcUnscaled->topLeft()*m_dScale);
-    rcScaled->setBottomRight((rcUnscaled->bottomRight()+QPoint(1,1))*m_dScale-QPoint(1,1));
+    rcScaled->setRect(rcUnscaled->x()*m_dScale, rcUnscaled->y()*m_dScale,
+                      rcUnscaled->width()*m_dScale, rcUnscaled->height()*m_dScale);
 }

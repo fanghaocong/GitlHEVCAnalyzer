@@ -24,7 +24,10 @@ public:
      */
     bool parseFile(QTextStream* pcInputStream, ComSequence* pcSequence);
 protected:
-    bool xReadInCUMode(QTextStream* pcCUInfoStream, ComCU *pcCU);
+    bool xReadInCUMode(QTextStream* pcCUInfoStream, ComCU *pcCU, ComSequence* pcSequence);
+    bool xReadInCUMode_HEVC(QTextStream* pcCUInfoStream, ComCU *pcCU);
+    bool xReadInCUMode_VVC(QTextStream* pcCUInfoStream, ComCU *pcCU);
+
 signals:
 
 public slots:

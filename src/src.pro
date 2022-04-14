@@ -26,6 +26,7 @@ SOURCES += main.cpp \
     model/common/comframe.cpp \
     model/common/comrom.cpp \
     model/drawengine/drawengine.cpp \
+    parsers/parserutilities.cpp \
     views/hevcbitstreamversionselector.cpp \
     views/mainwindow.cpp \
     model/io/ioyuv.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
     model/common/compu.h \
     model/common/comcu.h \
     model/drawengine/drawengine.h \
+    parsers/parserutilities.h \
     views/hevcbitstreamversionselector.h \
     views/mainwindow.h \
     model/io/ioyuv.h \
@@ -175,9 +177,13 @@ HEADERS += \
 #include & libs
 INCLUDEPATH += .\
                ../libgitlmvc/libgitlevtbus/src \
-               ../libgitlmvc/src
+               ../libgitlmvc/src \
+               ../ffmpeg/include
 
-LIBS += -L$${OUT_PWD}/../libgitlmvc/libgitlevtbus -L$${OUT_PWD}/../libgitlmvc
+DEPENDPATH += ../ffmpeg/include
+
+LIBS += -L$${OUT_PWD}/../libgitlmvc/libgitlevtbus -L$${OUT_PWD}/../libgitlmvc -L$${OUT_PWD}/../ffmpeg/lib \
+        -lavutil -lswscale
 
 CONFIG(debug, debug|release){
     LIBS += -lGitlMVCd -lGitlEvtBusd

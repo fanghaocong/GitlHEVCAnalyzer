@@ -13,6 +13,7 @@ CONFIG += staticlib
 DEFINES += _CRT_SECURE_NO_WARNINGS
 INCLUDEPATH += ../../source/Lib \
     ../../..
-DEPENDPATH += .
+DEPENDPATH += . \
+    ../../../SysuAnalyzerLib
 DESTDIR = $${OUT_PWD}/..
 include(DecoderLib.pri)

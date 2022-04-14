@@ -38,6 +38,9 @@
 #include "DecSlice.h"
 #include "CommonLib/UnitTools.h"
 #include "CommonLib/dtrace_next.h"
+#if ENABLE_ANAYSIS_OUTPUT
+#include "SysuAnalyzerLib/SysuAnalyzerOutput.h"
+#endif
 
 #include <vector>
 
@@ -231,6 +234,7 @@ void DecSlice::decompressSlice( Slice* slice, InputBitstream* bitstream, int deb
     {
       break;
     }
+
     cabacReader.coding_tree_unit( cs, ctuArea, pic->m_prevQP, ctuRsAddr );
 
     m_pcCuDecoder->decompressCtu( cs, ctuArea );
@@ -240,6 +244,10 @@ void DecSlice::decompressSlice( Slice* slice, InputBitstream* bitstream, int deb
       m_entropyCodingSyncContextState = cabacReader.getCtx();
       cs.storePrevPLT(m_palettePredictorSyncState);
     }
+
+#if ENABLE_ANAYSIS_OUTPUT
+    SysuAnalyzerOutput::getInstance()->writeOutCTUInfo( cs, ctuArea );
+#endif
 
 
     if( ctuIdx == slice->getNumCtuInSlice()-1 )

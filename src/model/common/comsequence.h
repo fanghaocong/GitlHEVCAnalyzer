@@ -46,7 +46,7 @@ public:
     ADD_CLASS_FIELD( int, iInputBitDepth, getInputBitDepth, setInputBitDepth)     /// YUV bit depth
 
     /*! Decoded File Location */
-    ADD_CLASS_FIELD( QString, strDeocdingFolder, getDecodingFolder, setDecodingFolder)
+    ADD_CLASS_FIELD( QString, strDecodingFolder, getDecodingFolder, setDecodingFolder)
 
     /*! Currently Displaying YUV (Predicted, Residual or Reconstructed)*/
     ADD_CLASS_FIELD( YUVRole, eYUVRole, getYUVRole, setYUVRole)
@@ -56,6 +56,7 @@ public:
      * Optional info
      * Obsolescent
      */
+    ADD_CLASS_FIELD(QString, strEncoder, getEncoder, setEncoder)
     ADD_CLASS_FIELD(QString, strEncoderVersion, getEncoderVersion, setEncoderVersion) ///
     ADD_CLASS_FIELD(double, dTotalDecTime, getTotalDecTime, setTotalDecTime)
     ADD_CLASS_FIELD(double, dPSNR, getPSNR, setPSNR)

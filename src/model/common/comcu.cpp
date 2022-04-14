@@ -8,7 +8,13 @@ ComCU::ComCU(ComFrame *pcParent)
     m_iDepth = -1;
     m_iX = -1;
     m_iY = -1;
-    m_iSize = -1;
+    m_iWidth = -1;
+    m_iHeight = -1;
+
+    m_cTURoot.setX(-1);
+    m_cTURoot.setY(-1);
+    m_cTURoot.setWidth(-1);
+    m_cTURoot.setHeight(-1);
 }
 
 ComCU::~ComCU()

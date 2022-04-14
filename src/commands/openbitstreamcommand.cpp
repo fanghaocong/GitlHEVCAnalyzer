@@ -34,6 +34,8 @@ bool OpenBitstreamCommand::execute( GitlCommandParameter& rcInputArg, GitlComman
     int iVersion = vValue.toInt();
     vValue = rcInputArg.getParameter("skip_decode");
     bool bSkipDecode = vValue.toBool();
+    vValue = rcInputArg.getParameter("decoder");
+    QString strDecoder = vValue.toString();
     QString strDecoderPath = "./decoders";
     QString strDecoderOutputPath = pModel->getPreferences().getCacheFolder();
     int iSequenceIndex = pModel->getSequenceManager().getAllSequences().size();
@@ -63,6 +65,7 @@ bool OpenBitstreamCommand::execute( GitlCommandParameter& rcInputArg, GitlComman
     ComSequence* pcSequence = new ComSequence();
     pcSequence->init();    
     pcSequence->setFileName(strFilename);
+    pcSequence->setEncoder(strDecoder);
 
     /// *****STEP 1 : Use the special decoder to parse bitstream*****
     /// call decoder process to decode bitstream to YUV and output text info
@@ -74,6 +77,7 @@ bool OpenBitstreamCommand::execute( GitlCommandParameter& rcInputArg, GitlComman
         dispatchEvt(cDecodingStageInfo);
         BitstreamParser cBitstreamParser;
         bSuccess = cBitstreamParser.parseFile(strDecoderPath,
+                                              strDecoder,
                                               iVersion,
                                               strFilename,
                                               strDecoderOutputPath,
@@ -133,6 +137,7 @@ bool OpenBitstreamCommand::execute( GitlCommandParameter& rcInputArg, GitlComman
         cCUPUFile.close();
         qDebug() << "CU&PU file parsing finished";
     }
+
     /// Parse deocder_tu.txt
     QString strTUFilename = strDecoderOutputPath + "/decoder_tu.txt";
     if( bSuccess )
@@ -208,6 +213,7 @@ bool OpenBitstreamCommand::execute( GitlCommandParameter& rcInputArg, GitlComman
         qDebug() << "Intra file parsing finished";
     }
 
+    /*
     /// Parse decoder_bit.txt
     QString strLCUBitFilename = strDecoderOutputPath + "/decoder_bit_lcu.txt";
     QString strSCUBitFilename = strDecoderOutputPath + "/decoder_bit_scu.txt";
@@ -249,7 +255,7 @@ bool OpenBitstreamCommand::execute( GitlCommandParameter& rcInputArg, GitlComman
         cTileFile.close();
 
     }
-
+    */
 
 
     ///*****STEP 3 : Open decoded YUV sequence*****

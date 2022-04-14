@@ -17,10 +17,10 @@ include(DecoderApp.pri)
 LIBS += -L$$OUT_PWD/..
 
 CONFIG(debug, debug|release){
-    LIBS += -lUtilitiesd -lDecoderLibd -lCommonLibd
+    LIBS += -lUtilitiesd -lDecoderLibd -lSysuAnalyzerLibd -lCommonLibd
 }
 CONFIG(release, debug|release){
-    LIBS += -lUtilities -lDecoderLib -lCommonLib
+    LIBS += -lUtilities -lDecoderLib -lSysuAnalyzerLib -lCommonLib
 }
 
 DEPENDPATH += ../../source/Lib

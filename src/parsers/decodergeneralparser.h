@@ -15,6 +15,9 @@ public:
 protected:
     void xSortByFrameCount( ComSequence* pcSequence );
 
+    bool parseFile_HEVC(QTextStream* pcInputStream, ComSequence* pcSequence);
+    bool parseFile_VVC(QTextStream* pcInputStream, ComSequence* pcSequence);
+
 signals:
 
 public slots:

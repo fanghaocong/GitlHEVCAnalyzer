@@ -26,7 +26,7 @@ public:
   Void writeOutCUInfo   ( TComDataCU* pcCU );
   Void xWriteOutCUInfo  ( TComDataCU* pcCU, Int iLength, Int iOffset, UInt iDepth);
   Void xWriteOutTUInfo  ( TComDataCU* pcCU, Int iLength, Int iOffset, UInt iDepth);
-  
+
   /// Sequence parameter set output
   Void writeOutSps         ( TComSPS* pcSPS );
 

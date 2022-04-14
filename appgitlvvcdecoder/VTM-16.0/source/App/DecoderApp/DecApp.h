@@ -61,9 +61,6 @@ private:
   // class interface
   DecLib          m_cDecLib;                     ///< decoder class
   std::unordered_map<int, VideoIOYuv>      m_cVideoIOYuvReconFile;        ///< reconstruction YUV class
-#if ENABLE_ANAYSIS_OUTPUT
-  std::unordered_map<int, VideoIOYuv>      m_cVideoIOYuvResiFile;        ///< residual YUV class
-#endif
   std::unordered_map<int, VideoIOYuv>      m_videoIOYuvSEIFGSFile;       ///< reconstruction YUV with FGS class
   std::unordered_map<int, VideoIOYuv>      m_cVideoIOYuvSEICTIFile;       ///< reconstruction YUV with CTI class
 

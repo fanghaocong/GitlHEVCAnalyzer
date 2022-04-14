@@ -13,7 +13,9 @@ public:
     bool parseFile(QTextStream* pcInputStream, ComSequence* pcSequence);
 
 protected:
-    bool xReadIntraMode(QTextStream* pcCUInfoStream, ComCU* pcCU);
+    bool xReadIntraMode(QTextStream* pcCUInfoStream, ComCU* pcCU, ComSequence* pcSequence);
+    bool xReadIntraMode_HEVC(QTextStream* pcCUInfoStream, ComCU* pcCU);
+    bool xReadIntraMode_VVC(QTextStream* pcCUInfoStream, ComCU* pcCU);
 signals:
 
 public slots:

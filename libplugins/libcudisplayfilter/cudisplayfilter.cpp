@@ -85,43 +85,15 @@ bool CUDisplayFilter::drawCU   (FilterContext* pcContext, QPainter* pcPainter,
     {
         pcPainter->setPen(m_cPUPen);
 
-        PartSize ePartSize = pcCU->getPartSize();
-
-        //Top-left corner of this sub-CU
-        int iXInFrame = pcScaledArea->left();
-        int iYInFrame = pcScaledArea->top();
-        //width of this sub-CUU
-        int iWidth = pcScaledArea->width();
-        switch(ePartSize)
+        QVector<ComPU*>::iterator iter;
+        for ( iter = pcCU->getPUs().begin(); iter != pcCU->getPUs().end(); iter++ )
         {
-        case SIZE_2Nx2N:           ///< symmetric motion partition,  2Nx2N
-            break;
-        case SIZE_2NxN:            ///< symmetric motion partition,  2Nx N
-            pcPainter->drawLine(iXInFrame, iYInFrame+iWidth/2, iXInFrame+iWidth, iYInFrame+iWidth/2);
-            break;
-        case SIZE_Nx2N:            ///< symmetric motion partition,   Nx2N
-            pcPainter->drawLine(iXInFrame+iWidth/2, iYInFrame, iXInFrame+iWidth/2, iYInFrame+iWidth);
-            break;
-        case SIZE_NxN:             ///< symmetric motion partition,   Nx N
-            pcPainter->drawLine(iXInFrame, iYInFrame+iWidth/2, iXInFrame+iWidth, iYInFrame+iWidth/2);
-            pcPainter->drawLine(iXInFrame+iWidth/2, iYInFrame, iXInFrame+iWidth/2, iYInFrame+iWidth);
-            break;
-        case SIZE_2NxnU:           ///< asymmetric motion partition, 2Nx( N/2) + 2Nx(3N/2)
-            pcPainter->drawLine(iXInFrame, iYInFrame+iWidth/4, iXInFrame+iWidth, iYInFrame+iWidth/4);
-            break;
-        case SIZE_2NxnD:           ///< asymmetric motion partition, 2Nx(3N/2) + 2Nx( N/2)
-            pcPainter->drawLine(iXInFrame, iYInFrame+iWidth*3/4, iXInFrame+iWidth, iYInFrame+iWidth*3/4);
-            break;
-        case SIZE_nLx2N:           ///< asymmetric motion partition, ( N/2)x2N + (3N/2)x2N
-            pcPainter->drawLine(iXInFrame+iWidth/4, iYInFrame, iXInFrame+iWidth/4, iYInFrame+iWidth);
-            break;
-        case SIZE_nRx2N:           ///< asymmetric motion partition, (3N/2)x2N + ( N/2)x2N
-            pcPainter->drawLine(iXInFrame+iWidth*3/4, iYInFrame, iXInFrame+iWidth*3/4, iYInFrame+iWidth);
-            break;
-        case SIZE_NONE:
-            break;
-        default:
-            Q_ASSERT(false);
+            int x = (*iter)->getX() * dScale;
+            int y = (*iter)->getY() * dScale;
+            int width = (*iter)->getWidth() * dScale;
+            int height = (*iter)->getHeight() * dScale;
+            QRect *subScaledArea = new QRect(x, y, width, height);
+            pcPainter->drawRect(*subScaledArea);
         }
     }
 

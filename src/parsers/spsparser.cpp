@@ -19,6 +19,21 @@ bool SpsParser::parseFile(QTextStream* pcInputStream, ComSequence* pcSequence)
 
     Q_ASSERT( pcSequence != NULL );
 
+    if ( pcSequence->getEncoder() == "VTM" )
+    {
+        return parseFile_VVC(pcInputStream, pcSequence);
+    }
+    else if ( pcSequence->getEncoder() == "HM" )
+    {
+        return parseFile_HEVC(pcInputStream, pcSequence);
+    }
+
+    return false;
+
+}
+
+bool SpsParser::parseFile_HEVC(QTextStream* pcInputStream, ComSequence* pcSequence)
+{
     QString strOneLine;
     QRegExp cMatchTarget;
 
@@ -87,6 +102,52 @@ bool SpsParser::parseFile(QTextStream* pcInputStream, ComSequence* pcSequence)
     }
 
     // Input Bit Depth:8
+    cMatchTarget.setPattern("Input Bit Depth:([0-9]+)");
+    while( !pcInputStream->atEnd() )
+    {
+        strOneLine = pcInputStream->readLine();
+        if( cMatchTarget.indexIn(strOneLine) != -1 ) {
+            int iInputBitDepth = cMatchTarget.cap(1).toInt();
+            pcSequence->setInputBitDepth(iInputBitDepth);
+            break;
+        }
+    }
+
+    return true;
+}
+
+bool SpsParser::parseFile_VVC(QTextStream* pcInputStream, ComSequence* pcSequence)
+{
+    QString strOneLine;
+    QRegExp cMatchTarget;
+
+
+    // Resolution:416x240
+    cMatchTarget.setPattern("Resolution:([0-9]+)x([0-9]+)");
+    while( !pcInputStream->atEnd() ) {
+        strOneLine = pcInputStream->readLine();
+        if( cMatchTarget.indexIn(strOneLine) != -1 ) {
+            int iWidth  = cMatchTarget.cap(1).toInt();
+            int iHeight = cMatchTarget.cap(2).toInt();
+            pcSequence->setWidth(iWidth);
+            pcSequence->setHeight(iHeight);
+            break;
+        }
+    }
+
+    // CTU Size:128
+    cMatchTarget.setPattern("CTU Size:([0-9]+)");
+    while( !pcInputStream->atEnd() )
+    {
+        strOneLine = pcInputStream->readLine();
+        if( cMatchTarget.indexIn(strOneLine) != -1 ) {
+            int iMaxCUSize = cMatchTarget.cap(1).toInt();
+            pcSequence->setMaxCUSize(iMaxCUSize);
+            break;
+        }
+    }
+
+    // Input Bit Depth:10
     cMatchTarget.setPattern("Input Bit Depth:([0-9]+)");
     while( !pcInputStream->atEnd() )
     {

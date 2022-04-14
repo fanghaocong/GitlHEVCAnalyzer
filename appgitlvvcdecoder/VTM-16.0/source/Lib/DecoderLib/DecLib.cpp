@@ -43,6 +43,9 @@
 #include "CommonLib/Buffer.h"
 #include "CommonLib/UnitTools.h"
 #include "CommonLib/ProfileLevelTier.h"
+#if ENABLE_ANAYSIS_OUTPUT
+#include "SysuAnalyzerLib/SysuAnalyzerOutput.h"
+#endif
 
 #include <fstream>
 #include <set>
@@ -3311,6 +3314,10 @@ void DecLib::xDecodeSPS( InputNALUnit& nalu )
   DTRACE( g_trace_ctx, D_QP_PER_CTU, "CTU Size: %dx%d", sps->getMaxCUWidth(), sps->getMaxCUHeight() );
   m_accessUnitSpsNumSubpic[nalu.m_nuhLayerId] = sps->getNumSubPics();
   m_parameterSetManager.storeSPS( sps, nalu.getBitstream().getFifo() );
+
+#if ENABLE_ANAYSIS_OUTPUT
+  SysuAnalyzerOutput::getInstance()->writeOutSps( sps );
+#endif
 }
 
 void DecLib::xDecodePPS( InputNALUnit& nalu )

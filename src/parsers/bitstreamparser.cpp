@@ -24,7 +24,8 @@ BitstreamParser::~BitstreamParser()
 
 
 bool BitstreamParser::parseFile(QString strDecoderFolder,
-                                int iEncoderVersion,
+                                QString strDecoder,
+                                int iDecoderVersion,
                                 QString strBitstreamFilePath,
                                 QString strOutputPath,
                                 ComSequence* pcSequence)
@@ -33,9 +34,9 @@ bool BitstreamParser::parseFile(QString strDecoderFolder,
     /// check if decoder exist
     QString strDecoderPath;
     QStringList cCandidateDecoderList;
-    cCandidateDecoderList << QString("HM_%1").arg(iEncoderVersion)
-                          << QString("HM_%1.exe").arg(iEncoderVersion)
-                          << QString("HM_%1.out").arg(iEncoderVersion);
+    cCandidateDecoderList << QString("%1_%2").arg(strDecoder).arg(iDecoderVersion)
+                          << QString("%1_%2.exe").arg(strDecoder).arg(iDecoderVersion)
+                          << QString("%1_%2.out").arg(strDecoder).arg(iDecoderVersion);
     QDir cDecoderFolder(strDecoderFolder);
     foreach(const QString& strDecoderExe, cCandidateDecoderList)
     {

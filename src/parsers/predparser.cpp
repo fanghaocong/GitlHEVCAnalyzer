@@ -44,7 +44,7 @@ bool PredParser::parseFile(QTextStream* pcInputStream, ComSequence* pcSequence)
 
             cPredInfoStream.setString(&strCUInfo, QIODevice::ReadOnly );
 
-            xReadPredMode(&cPredInfoStream, pcLCU);
+            xReadPredMode(&cPredInfoStream, pcLCU, pcSequence);
 
         }
 
@@ -53,15 +53,29 @@ bool PredParser::parseFile(QTextStream* pcInputStream, ComSequence* pcSequence)
 }
 
 
-bool PredParser::xReadPredMode(QTextStream* pcPredInfoStream, ComCU* pcCU)
+bool PredParser::xReadPredMode(QTextStream* pcPredInfoStream, ComCU* pcCU, ComSequence* pcSequence)
+{
+    if ( pcSequence->getEncoder() == "HM" )
+    {
+        return xReadPredMode_HEVC(pcPredInfoStream, pcCU);
+    }
+    else if ( pcSequence->getEncoder() == "VTM" )
+    {
+        return xReadPredMode_VVC(pcPredInfoStream, pcCU);
+    }
+
+    return false;
+}
+
+bool PredParser::xReadPredMode_HEVC(QTextStream* pcPredInfoStream, ComCU* pcCU)
 {
     if( !pcCU->getSCUs().empty() )
     {
         /// non-leaf node : recursive reading for children
-        xReadPredMode(pcPredInfoStream, pcCU->getSCUs().at(0));
-        xReadPredMode(pcPredInfoStream, pcCU->getSCUs().at(1));
-        xReadPredMode(pcPredInfoStream, pcCU->getSCUs().at(2));
-        xReadPredMode(pcPredInfoStream, pcCU->getSCUs().at(3));
+        xReadPredMode_HEVC(pcPredInfoStream, pcCU->getSCUs().at(0));
+        xReadPredMode_HEVC(pcPredInfoStream, pcCU->getSCUs().at(1));
+        xReadPredMode_HEVC(pcPredInfoStream, pcCU->getSCUs().at(2));
+        xReadPredMode_HEVC(pcPredInfoStream, pcCU->getSCUs().at(3));
     }
     else
     {
@@ -79,4 +93,18 @@ bool PredParser::xReadPredMode(QTextStream* pcPredInfoStream, ComCU* pcCU)
         }
     }
     return true;
+}
+
+
+bool PredParser::xReadPredMode_VVC(QTextStream* pcPredInfoStream, ComCU* pcCU)
+{
+    int iPredMode;
+    for(int i = 0; i < pcCU->getPUs().size(); i++)
+    {
+        Q_ASSERT(pcPredInfoStream->atEnd() == false);
+
+        *pcPredInfoStream >> iPredMode;
+        ComPU* pcPU = pcCU->getPUs().at(i);
+        pcPU->setPredMode((PredMode)iPredMode);
+    }
 }

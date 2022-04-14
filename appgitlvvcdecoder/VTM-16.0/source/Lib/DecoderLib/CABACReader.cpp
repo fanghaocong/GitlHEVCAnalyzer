@@ -44,6 +44,10 @@
 #include "CommonLib/dtrace_next.h"
 #include "CommonLib/Picture.h"
 
+#if ENABLE_ANAYSIS_OUTPUT
+#include "SysuAnalyzerLib/SysuAnalyzerOutput.h"
+#endif
+
 #if RExt__DECODER_DEBUG_BIT_STATISTICS
 #include "CommonLib/CodingStatistics.h"
 #endif
@@ -622,6 +626,16 @@ void CABACReader::coding_tree( CodingStructure& cs, Partitioner& partitioner, CU
   }
 
   CodingUnit& cu = cs.addCU( CS::getArea( cs, currArea, partitioner.chType ), partitioner.chType );
+
+//#if ENABLE_ANAYSIS_OUTPUT
+//  if ( partitioner.chType == CHANNEL_TYPE_LUMA )
+//  {
+//      SysuAnalyzerOutput::getInstance()->xWriteOutCUInfo( cu.blocks[CHANNEL_TYPE_LUMA].x,
+//                                                          cu.blocks[CHANNEL_TYPE_LUMA].y,
+//                                                          cu.blocks[CHANNEL_TYPE_LUMA].width,
+//                                                          cu.blocks[CHANNEL_TYPE_LUMA].height );
+//  }
+//#endif
 
   partitioner.setCUData( cu );
   cu.slice   = cs.slice;
@@ -2603,6 +2617,16 @@ void CABACReader::transform_tree( CodingStructure &cs, Partitioner &partitioner,
     TransformUnit &tu = cs.addTU( CS::getArea( cs, area, partitioner.chType ), partitioner.chType );
     unsigned numBlocks = ::getNumberValidTBlocks( *cs.pcv );
     tu.checkTuNoResidual( partitioner.currPartIdx() );
+
+//#if ENABLE_ANAYSIS_OUTPUT
+//  if ( partitioner.chType == CHANNEL_TYPE_LUMA )
+//  {
+//      SysuAnalyzerOutput::getInstance()->xWriteOutTUInfo( tu.blocks[CHANNEL_TYPE_LUMA].x,
+//                                                          tu.blocks[CHANNEL_TYPE_LUMA].y,
+//                                                          tu.blocks[CHANNEL_TYPE_LUMA].width,
+//                                                          tu.blocks[CHANNEL_TYPE_LUMA].height );
+//  }
+//#endif
 
     for( unsigned compID = COMPONENT_Y; compID < numBlocks; compID++ )
     {

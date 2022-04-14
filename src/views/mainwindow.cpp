@@ -220,6 +220,7 @@ void MainWindow::on_actionOpen_HEVC_Bitstream_triggered()
     GitlIvkCmdEvt cEvt("open_bitstream");
     cEvt.setParameter("filename", strFilename);
     cEvt.setParameter("skip_decode", false);
+    cEvt.setParameter("decoder", "HM");
     cEvt.setParameter("version", cBitstreamDig.getBitstreamVersion());
     cEvt.dispatch();
 }
@@ -250,9 +251,10 @@ void MainWindow::on_actionOpen_VVC_Bitstream_triggered()
         return;
 
     /// prepare & sent event to bus
-    GitlIvkCmdEvt cEvt("open_vvc_bitstream");
+    GitlIvkCmdEvt cEvt("open_bitstream");
     cEvt.setParameter("filename", strFilename);
     cEvt.setParameter("skip_decode", false);
+    cEvt.setParameter("decoder", "VTM");
     cEvt.setParameter("version", cBitstreamDig.getBitstreamVersion());
     cEvt.dispatch();
 }

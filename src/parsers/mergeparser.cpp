@@ -39,23 +39,36 @@ bool MergeParser::parseFile(QTextStream* pcInputStream, ComSequence* pcSequence)
             ///
             QString strMergeInfo = cMatchTarget.cap(3);
             cMergeInfoStream.setString( &strMergeInfo, QIODevice::ReadOnly );
-            xReadMergeIndex(&cMergeInfoStream, pcLCU);
-
+            xReadMergeIndex(&cMergeInfoStream, pcLCU, pcSequence);
         }
 
     }
     return true;
 }
 
-bool MergeParser::xReadMergeIndex(QTextStream* pcMergeIndexStream, ComCU* pcCU)
+bool MergeParser::xReadMergeIndex(QTextStream* pcMergeIndexStream, ComCU* pcCU, ComSequence* pcSequence)
+{
+    if ( pcSequence->getEncoder() == "HM" )
+    {
+        return xReadMergeIndex_HEVC(pcMergeIndexStream, pcCU);
+    }
+    else if ( pcSequence->getEncoder() == "VTM" )
+    {
+        return xReadMergeIndex_VVC(pcMergeIndexStream, pcCU);
+    }
+
+    return false;
+}
+
+bool MergeParser::xReadMergeIndex_HEVC(QTextStream* pcMergeIndexStream, ComCU* pcCU)
 {
     if( !pcCU->getSCUs().empty() )
     {
         /// non-leaf node : recursive reading for children
-        xReadMergeIndex(pcMergeIndexStream, pcCU->getSCUs().at(0));
-        xReadMergeIndex(pcMergeIndexStream, pcCU->getSCUs().at(1));
-        xReadMergeIndex(pcMergeIndexStream, pcCU->getSCUs().at(2));
-        xReadMergeIndex(pcMergeIndexStream, pcCU->getSCUs().at(3));
+        xReadMergeIndex_HEVC(pcMergeIndexStream, pcCU->getSCUs().at(0));
+        xReadMergeIndex_HEVC(pcMergeIndexStream, pcCU->getSCUs().at(1));
+        xReadMergeIndex_HEVC(pcMergeIndexStream, pcCU->getSCUs().at(2));
+        xReadMergeIndex_HEVC(pcMergeIndexStream, pcCU->getSCUs().at(3));
     }
     else
     {
@@ -67,6 +80,18 @@ bool MergeParser::xReadMergeIndex(QTextStream* pcMergeIndexStream, ComCU* pcCU)
             *pcMergeIndexStream >> iMergeIndex;
             pcCU->getPUs().at(i)->setMergeIndex(iMergeIndex);
         }
+    }
+    return true;
+}
+
+bool MergeParser::xReadMergeIndex_VVC(QTextStream* pcMergeIndexStream, ComCU* pcCU)
+{
+    int iMergeIndex;
+    for(int i = 0; i < pcCU->getPUs().size(); i++)
+    {
+        Q_ASSERT(pcMergeIndexStream->atEnd() == false);
+        *pcMergeIndexStream >> iMergeIndex;
+        pcCU->getPUs().at(i)->setMergeIndex(iMergeIndex);
     }
     return true;
 }
