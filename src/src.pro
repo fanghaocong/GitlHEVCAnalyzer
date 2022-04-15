@@ -10,7 +10,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Gitl_HEVC_Analyzer
+TARGET = VVC_Bitstream_Analyzer
 
 DESTDIR = $${OUT_PWD}/..
 

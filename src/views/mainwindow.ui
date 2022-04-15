@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Gitl HEVC Analyzer</string>
+   <string>VVC Bitstream Analyzer</string>
   </property>
   <property name="windowIcon">
    <iconset>
