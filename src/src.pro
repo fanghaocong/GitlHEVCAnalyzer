@@ -182,7 +182,7 @@ INCLUDEPATH += .\
 
 DEPENDPATH += ../ffmpeg/include
 
-LIBS += -L$${OUT_PWD}/../libgitlmvc/libgitlevtbus -L$${OUT_PWD}/../libgitlmvc -L$${OUT_PWD}/../ffmpeg/lib \
+LIBS += -L$${OUT_PWD}/../libgitlmvc/libgitlevtbus -L$${OUT_PWD}/../libgitlmvc -L$${PWD}/../ffmpeg/lib \
         -lavutil -lswscale
 
 CONFIG(debug, debug|release){

@@ -167,7 +167,7 @@ bool DecoderGeneralParser::parseFile_VVC(QTextStream* pcInputStream, ComSequence
 
     // POC   12 LId:  0 TId: 0 ( TRAIL, P-SLICE, QP 44 ) [DT  0.014] [L0 11c 10 8 0] [L1] [:,(unk)]
     ComFrame *pcFrame = NULL;
-    cMatchTarget.setPattern("POC *([0-9]+).*\\[DT *([0-9.]+)*\\] \\[L0(( [0-9]+c?){0,})\\] \\[L1(( [0-9]+){0,})\\]");
+    cMatchTarget.setPattern("POC *([0-9]+).*\\[DT *([0-9.]+)*\\] \\[L0(( [0-9]+c?){0,})\\] \\[L1(( [0-9]+c?){0,})\\]");
     pcInputStream->readLine(); ///< Skip a empty line
     while( !pcInputStream->atEnd() )
     {
@@ -192,6 +192,10 @@ bool DecoderGeneralParser::parseFile_VVC(QTextStream* pcInputStream, ComSequence
             if ( strL0.contains("c") )
             {
                 strL0.replace("c", "");
+            }
+            if ( strL1.contains("c") )
+            {
+                strL1.replace("c", "");
             }
             readIntArray(&pcFrame->getL0List(), &strL0);
             readIntArray(&pcFrame->getL1List(), &strL1);
