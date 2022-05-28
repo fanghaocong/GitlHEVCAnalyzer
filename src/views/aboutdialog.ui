@@ -40,7 +40,6 @@
      <property name="font">
       <font>
        <pointsize>13</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -80,7 +79,7 @@
      <item>
       <widget class="QLabel" name="versionLabel">
        <property name="text">
-        <string>xxxx</string>
+        <string>1.0.0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -105,7 +104,7 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Copyright(C) 2013</string>
+      <string>Copyright(C) 2022</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -120,7 +119,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Author: Huang Li (李璜)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Author: Haocong Fang (方浩聪)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -138,7 +137,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href= &quot;mailto:lihuang55555@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#cacaca;&quot;&gt;Email: lihuang55555@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:lihuang55555@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#cacaca;&quot;&gt;Email: fanghaocong@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

@@ -16,6 +16,7 @@
 #include "gitlivkcmdevt.h"
 #include <QDir>
 
+#include <QTime>
 
 OpenBitstreamCommand::OpenBitstreamCommand(QObject *parent) :
     GitlAbstractCommand(parent)
@@ -24,6 +25,8 @@ OpenBitstreamCommand::OpenBitstreamCommand(QObject *parent) :
 
 bool OpenBitstreamCommand::execute( GitlCommandParameter& rcInputArg, GitlCommandParameter& rcOutputArg )
 {
+    QTime time;
+    time.start();
     ModelLocator* pModel = ModelLocator::getInstance();
 
     /// *****STEP 0 : Request*****
@@ -53,6 +56,7 @@ bool OpenBitstreamCommand::execute( GitlCommandParameter& rcInputArg, GitlComman
     SCOPE_EXIT(GitlUpdateUIEvt evt;
                evt.setParameter("busy_dialog_visible", false);
                evt.dispatch();
+               qWarning() << time.elapsed()/1000.0 << "s";
                );
 
 

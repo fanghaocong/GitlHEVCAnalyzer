@@ -18,6 +18,10 @@ bool SwitchSequenceCommand::execute( GitlCommandParameter& rcInputArg, GitlComma
     cSwitchYUV.setParameter("sequence", QVariant::fromValue((void*)pcSequence));
     cSwitchYUV.dispatch();
 
+    GitlIvkCmdEvt cJumpEvt("jumpto_frame");
+    cJumpEvt.setParameter("poc", 0);
+    cJumpEvt.dispatch();
+
     /// re-load & re-init filters
     pModel->getDrawEngine().getFilterLoader().reinitAllFilters();
 

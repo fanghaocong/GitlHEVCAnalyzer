@@ -2,6 +2,8 @@
 #define PARSERUTILITIES_H
 
 #include <QTextStream>
+#include <QVector>
+#include <QString>
 
 class ParserUtilities
 {
@@ -10,6 +12,7 @@ public:
     ~ParserUtilities();
 
     static void stream2IntAray(QTextStream* inputStream, QVector<int>* arr);
+    static QString readNonemptyLine(QTextStream * inputStream);
 
     /// SINGLETON
     static ParserUtilities* getInstance();

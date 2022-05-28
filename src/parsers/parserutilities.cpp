@@ -31,3 +31,12 @@ void ParserUtilities::stream2IntAray(QTextStream* inputStream, QVector<int>* arr
         arr->push_back(num);
     }
 }
+
+QString ParserUtilities::readNonemptyLine(QTextStream * inputStream)
+{
+    QString strOneLine;
+    do {
+        strOneLine = inputStream->readLine();
+    } while (strOneLine.length() <= 0 && !inputStream->atEnd());
+    return strOneLine;
+}

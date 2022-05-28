@@ -1,4 +1,6 @@
 #include "decodergeneralparser.h"
+#include "parserutilities.h"
+
 #include <QRegExp>
 #include <QTextStream>
 #include <QDebug>
@@ -79,7 +81,7 @@ bool DecoderGeneralParser::parseFile_HEVC(QTextStream* pcInputStream, ComSequenc
     //HM software: Decoder Version [5.2][Windows][VS 1500][32 bit]
     cMatchTarget.setPattern("HM software: Decoder Version \\[([0-9.]+)\\].*");
     while( !pcInputStream->atEnd() ) {
-        strOneLine = pcInputStream->readLine();
+        strOneLine = ParserUtilities::getInstance()->readNonemptyLine(pcInputStream);
         if( cMatchTarget.indexIn(strOneLine) != -1 ) {
             QString strEncoderVersion = cMatchTarget.cap(1);
             pcSequence->setEncoderVersion(strEncoderVersion);
@@ -93,13 +95,12 @@ bool DecoderGeneralParser::parseFile_HEVC(QTextStream* pcInputStream, ComSequenc
 
     ComFrame *pcFrame = NULL;
     cMatchTarget.setPattern("POC *(-?[0-9]+).*\\[DT *([0-9.]+) *\\] \\[L0(( -?[0-9]+){0,}) \\] \\[L1(( -?[0-9]+){0,}) \\] (\\[LC(( -?[0-9]+){0,}) \\])?");
-    pcInputStream->readLine();///< Skip a empty line
     while( !pcInputStream->atEnd() )
     {
 
         while( !pcInputStream->atEnd() )
         {
-            strOneLine = pcInputStream->readLine();
+            strOneLine = ParserUtilities::getInstance()->readNonemptyLine(pcInputStream);
             if(cMatchTarget.indexIn(strOneLine) != -1)
                 break;
         }
@@ -132,7 +133,6 @@ bool DecoderGeneralParser::parseFile_HEVC(QTextStream* pcInputStream, ComSequenc
             cMatchTarget.setPattern(" Total Time: *([0-9.]+).*");
 
             {
-                strOneLine = pcInputStream->readLine();
                 if( cMatchTarget.indexIn(strOneLine) != -1 ) {
                     pcSequence->setTotalDecTime(cMatchTarget.cap(1).toDouble());
                     break;
@@ -157,7 +157,7 @@ bool DecoderGeneralParser::parseFile_VVC(QTextStream* pcInputStream, ComSequence
     // VVCSoftware: VTM Decoder Version 16.0 [Windows][GCC 8.1.0][64 bit] [SIMD=AVX2]
     cMatchTarget.setPattern("VVCSoftware: VTM Decoder Version ([0-9.]+).*");
     while( !pcInputStream->atEnd() ) {
-        strOneLine = pcInputStream->readLine();
+        strOneLine = ParserUtilities::getInstance()->readNonemptyLine(pcInputStream);
         if( cMatchTarget.indexIn(strOneLine) != -1 ) {
             QString strEncoderVersion = cMatchTarget.cap(1);
             pcSequence->setEncoderVersion(strEncoderVersion);
@@ -168,13 +168,13 @@ bool DecoderGeneralParser::parseFile_VVC(QTextStream* pcInputStream, ComSequence
     // POC   12 LId:  0 TId: 0 ( TRAIL, P-SLICE, QP 44 ) [DT  0.014] [L0 11c 10 8 0] [L1] [:,(unk)]
     ComFrame *pcFrame = NULL;
     cMatchTarget.setPattern("POC *([0-9]+).*\\[DT *([0-9.]+)*\\] \\[L0(( [0-9]+c?){0,})\\] \\[L1(( [0-9]+c?){0,})\\]");
-    pcInputStream->readLine(); ///< Skip a empty line
+
     while( !pcInputStream->atEnd() )
     {
 
         while( !pcInputStream->atEnd() )
         {
-            strOneLine = pcInputStream->readLine();
+            strOneLine = ParserUtilities::getInstance()->readNonemptyLine(pcInputStream);
             if(cMatchTarget.indexIn(strOneLine) != -1)
                 break;
         }
