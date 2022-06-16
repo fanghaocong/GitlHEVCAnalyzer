@@ -154,4 +154,5 @@ bool MVParser::xReadMV_VVC(QTextStream* pcMVInfoStream, ComCU* pcCU)
             pcPU->getMVs().push_back(pcReadMV);
         }
     }
+    return true;
 }

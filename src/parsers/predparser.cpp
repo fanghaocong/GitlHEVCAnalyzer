@@ -107,4 +107,5 @@ bool PredParser::xReadPredMode_VVC(QTextStream* pcPredInfoStream, ComCU* pcCU)
         ComPU* pcPU = pcCU->getPUs().at(i);
         pcPU->setPredMode((PredMode)iPredMode);
     }
+    return true;
 }
