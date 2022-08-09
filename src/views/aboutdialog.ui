@@ -44,7 +44,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Gitl HEVC Analyzer</string>
+      <string>VVC Bitstream Analyzer</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
