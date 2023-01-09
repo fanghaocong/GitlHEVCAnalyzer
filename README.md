@@ -48,18 +48,7 @@
 
    + 选择 linux64-gpl-shared 版本进行下载；
 
-   + 将其中的 include 文件夹复制到项目目录下的 ffmpeg 文件夹下（需要新建 ffmpeg 文件夹）；
-
-   + 将其中的 lib 文件夹复制到适当位置（例如将lib文件夹放置在路径/usr/local/ffmpeg/下）；
-
-   + 将 lib 文件夹路径添加到动态库配置中：
-
-     ```shell
-     sudo vim /etc/ld.so.conf.d/ffmpeg.conf
-     # 将lib文件夹路径添加到该配置文件中，如：/usr/local/ffmpeg/lib
-     # 更新动态库配置
-     sudo ldconfig
-     ```
+   + 将其中的 include 文件夹和 lib 文件夹复制到项目目录下的 ffmpeg 文件夹下（需要新建 ffmpeg 文件夹）；
 
 3. 编译运行：
 
