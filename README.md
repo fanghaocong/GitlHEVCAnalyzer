@@ -24,6 +24,12 @@
 │  ├─main.cpp                程序入口
 ```
 
+## 代码下载
+
+```shell
+git clone --recursive https://github.com/fanghaocong/VVCBitstreamAnalyzer
+```
+
 ## Qt 环境搭建（Qt 5.15.2）
 
 ### Windows
